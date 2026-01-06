@@ -1,0 +1,46 @@
+package com.ArielMelo.bankapi.services;
+
+import com.ArielMelo.bankapi.entities.Account;
+import com.ArielMelo.bankapi.entities.Transaction;
+import com.ArielMelo.bankapi.enums.TransactionType;
+import com.ArielMelo.bankapi.repositories.TransactionRepository;
+import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.UUID;
+
+@Service
+@AllArgsConstructor
+public class WithdrawService {
+
+    private final AccountService accountService;
+    private final TransactionRepository transactionRepository;
+
+    @Transactional
+    public void withdraw(UUID accountId, BigDecimal amount){
+        if (amount.compareTo(BigDecimal.ZERO) <= 0){
+            throw new RuntimeException("Valor de saque deve ser maior que zero");
+        }
+
+        Account account = accountService.findById(accountId);
+
+
+        if (account.getBalance().compareTo(amount) < 0) {
+            throw new RuntimeException("Saldo insuficiente");
+        }
+
+        account.setBalance(account.getBalance().subtract(amount));
+        accountService.save(account);
+
+        Transaction tx = new Transaction();
+        tx.setType(TransactionType.WITHDRAW);
+        tx.setAmount(amount);
+        tx.setCreatedAt(LocalDateTime.now());
+        tx.setAccount(account);
+
+        transactionRepository.save(tx);
+    }
+}
