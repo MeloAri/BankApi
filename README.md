@@ -14,6 +14,8 @@ Registro de transações
 
 Controle de acesso via Spring Security + JWT
 
+
+
 🛠️ Tecnologias utilizadas
 
 Java 21
@@ -34,6 +36,10 @@ Maven
 
 Lombok
 
+
+
+
+
 🔐 Autenticação
 
 A API utiliza JWT para autenticação.
@@ -50,6 +56,12 @@ Envia o token no header:
 
 Authorization: Bearer SEU_TOKEN_AQUI
 
+
+
+
+
+
+
 📌 Endpoints
 🔑 Autenticação
 ➕ Registrar usuário
@@ -62,6 +74,9 @@ POST /api/auth/register
   "password": "123456",
   "cpf": "12345678900"
 }
+
+
+
 
 🔓 Login
 
@@ -78,6 +93,10 @@ Resposta:
 {
   "token": "eyJhbGciOiJIUzI1NiJ9..."
 }
+
+
+
+
 
 🏦 Conta bancária
 ➕ Criar conta
@@ -103,6 +122,11 @@ Resposta:
   "balance": 0
 }
 
+
+
+
+
+
 💰 Depósito
 ➕ Realizar depósito
 
@@ -123,6 +147,11 @@ Resposta:
 {
   "message": "Depósito realizado com sucesso"
 }
+
+
+
+
+
 
 📊 Transações
 
